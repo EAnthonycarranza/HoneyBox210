@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "honeybox-dev",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "source ~/.nvm/nvm.sh && cd /Users/anthonycarranza/HoneyBox210/client && BROWSER=none PORT=3000 npx react-scripts start"],
+      "port": 3000
+    }
+  ]
+}
