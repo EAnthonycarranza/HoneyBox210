@@ -1,5 +1,6 @@
 node_modules/
 .env
+client/.env
 client/build/
 .DS_Store
 server/gcs-keyfile.json
