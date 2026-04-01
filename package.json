@@ -2,11 +2,16 @@
   "name": "honeybox210",
   "version": "1.0.0",
   "description": "Honey Box 210 - Fresh Honey from San Antonio, TX",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
+    "start": "cd server && node server.js",
     "server": "cd server && node server.js",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "install-all": "cd server && npm install && cd ../client && npm install",
+    "heroku-postbuild": "cd server && npm install && cd ../client && npm install && npm run build",
     "seed": "cd server && node -e \"require('./config/db')().then(() => require('./routes/products').seedProducts())\""
   },
   "dependencies": {
