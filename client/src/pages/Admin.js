@@ -684,24 +684,39 @@ const Admin = () => {
             {type === 'blog' && (
               <>
                 <label>Title<input name="title" value={form.title} onChange={handleChange} required /></label>
-                <label>Image
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <input name="image" value={form.image} onChange={handleChange} placeholder="Image URL or upload" style={{ flex: 1 }} />
+                <div>
+                  <span style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: 6, display: 'block', color: '#2c2c2c', fontFamily: "'Inter', sans-serif" }}>Cover Image</span>
+                  <div className="adm-img-slot">
+                    <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                      {form.image && (form.image.startsWith('http') || form.image.startsWith('/images')) ? (
+                        <img src={form.image} alt="" className="adm-img-thumb" />
+                      ) : (
+                        <div className="adm-img-placeholder">
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                      )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <input name="image" value={form.image} onChange={handleChange} placeholder="Paste image URL..." style={{ width: '100%', marginBottom: 6 }} />
+                        <label className="adm-upload-label">
+                          <input type="file" accept="image/*" style={{ display: 'none' }} onChange={async (e) => {
+                            const file = e.target.files[0];
+                            if (!file) return;
+                            const fd = new FormData();
+                            fd.append('image', file);
+                            try {
+                              const res = await axios.post('/api/gallery/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+                              setForm(f => ({ ...f, image: res.data.imageUrl }));
+                            } catch (err) {
+                              alert('Upload failed.');
+                            }
+                          }} />
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                          <span>Choose File</span>
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                  {form.image && form.image.startsWith('http') && <img src={form.image} alt="" style={{ width: 80, height: 50, objectFit: 'cover', borderRadius: 6, marginTop: 4 }} />}
-                  <input type="file" accept="image/*" style={{ fontSize: '0.8rem', marginTop: 4 }} onChange={async (e) => {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    const fd = new FormData();
-                    fd.append('image', file);
-                    try {
-                      const res = await axios.post('/api/gallery/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-                      setForm(f => ({ ...f, image: res.data.imageUrl }));
-                    } catch (err) {
-                      alert('Upload failed.');
-                    }
-                  }} />
-                </label>
+                </div>
                 <label>Excerpt<input name="excerpt" value={form.excerpt} onChange={handleChange} placeholder="Short preview text" /></label>
                 <label>Content<textarea name="content" value={form.content} onChange={handleChange} required rows="8" /></label>
                 <label className="adm-checkbox"><input type="checkbox" name="published" checked={form.published} onChange={handleChange} /> Published</label>
@@ -710,24 +725,39 @@ const Admin = () => {
             {type === 'events' && (
               <>
                 <label>Title<input name="title" value={form.title} onChange={handleChange} required /></label>
-                <label>Image
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <input name="image" value={form.image} onChange={handleChange} placeholder="Image URL or upload" style={{ flex: 1 }} />
+                <div>
+                  <span style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: 6, display: 'block', color: '#2c2c2c', fontFamily: "'Inter', sans-serif" }}>Event Image</span>
+                  <div className="adm-img-slot">
+                    <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                      {form.image && (form.image.startsWith('http') || form.image.startsWith('/images')) ? (
+                        <img src={form.image} alt="" className="adm-img-thumb" />
+                      ) : (
+                        <div className="adm-img-placeholder">
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                      )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <input name="image" value={form.image} onChange={handleChange} placeholder="Paste image URL..." style={{ width: '100%', marginBottom: 6 }} />
+                        <label className="adm-upload-label">
+                          <input type="file" accept="image/*" style={{ display: 'none' }} onChange={async (e) => {
+                            const file = e.target.files[0];
+                            if (!file) return;
+                            const fd = new FormData();
+                            fd.append('image', file);
+                            try {
+                              const res = await axios.post('/api/gallery/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+                              setForm(f => ({ ...f, image: res.data.imageUrl }));
+                            } catch (err) {
+                              alert('Upload failed.');
+                            }
+                          }} />
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                          <span>Choose File</span>
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                  {form.image && form.image.startsWith('http') && <img src={form.image} alt="" style={{ width: 80, height: 50, objectFit: 'cover', borderRadius: 6, marginTop: 4 }} />}
-                  <input type="file" accept="image/*" style={{ fontSize: '0.8rem', marginTop: 4 }} onChange={async (e) => {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    const fd = new FormData();
-                    fd.append('image', file);
-                    try {
-                      const res = await axios.post('/api/gallery/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-                      setForm(f => ({ ...f, image: res.data.imageUrl }));
-                    } catch (err) {
-                      alert('Upload failed.');
-                    }
-                  }} />
-                </label>
+                </div>
                 <div className="adm-row">
                   <label>Start Date<input type="date" name="date" value={form.date} onChange={handleChange} required /></label>
                   <label>End Date<input type="date" name="endDate" value={form.endDate} onChange={handleChange} /></label>
@@ -756,30 +786,46 @@ const Admin = () => {
                 </label>
                 <label>Description<textarea name="description" value={form.description} onChange={handleChange} required rows="4" /></label>
                 <div>
-                  <span style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: 6, display: 'block' }}>Product Images</span>
+                  <span style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: 10, display: 'block', color: '#2c2c2c' }}>Product Images</span>
                   {(form.images || ['']).map((img, i) => (
-                    <div key={i} style={{ marginBottom: 10 }}>
-                      <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
-                        <input value={img} onChange={e => handleImageChange(i, e.target.value)} placeholder="Image URL or upload below" style={{ flex: 1 }} />
+                    <div key={i} className="adm-img-slot">
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        {img && (img.startsWith('http') || img.startsWith('/images')) ? (
+                          <img src={img} alt="" className="adm-img-thumb" />
+                        ) : (
+                          <div className="adm-img-placeholder">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                          </div>
+                        )}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <input value={img} onChange={e => handleImageChange(i, e.target.value)} placeholder="Paste image URL..." style={{ width: '100%', marginBottom: 6 }} />
+                          <label className="adm-upload-label">
+                            <input type="file" accept="image/*" style={{ display: 'none' }} onChange={async (e) => {
+                              const file = e.target.files[0];
+                              if (!file) return;
+                              const fd = new FormData();
+                              fd.append('image', file);
+                              const label = e.target.closest('.adm-upload-label');
+                              const span = label?.querySelector('.adm-upload-text');
+                              if (span) span.textContent = 'Uploading...';
+                              try {
+                                const res = await axios.post('/api/products/upload-image', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+                                handleImageChange(i, res.data.imageUrl);
+                              } catch (err) {
+                                alert('Upload failed: ' + (err.response?.data?.message || err.message));
+                              } finally {
+                                if (span) span.textContent = 'Choose File';
+                              }
+                            }} />
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span className="adm-upload-text">Choose File</span>
+                          </label>
+                        </div>
                         {form.images.length > 1 && (
-                          <button type="button" onClick={() => setForm(f => ({ ...f, images: f.images.filter((_, j) => j !== i) }))} style={{ background: '#dc2626', color: '#fff', border: 'none', borderRadius: 6, padding: '0 12px', cursor: 'pointer' }}>✕</button>
+                          <button type="button" onClick={() => setForm(f => ({ ...f, images: f.images.filter((_, j) => j !== i) }))}
+                            className="adm-img-remove" title="Remove image">✕</button>
                         )}
                       </div>
-                      {img && img.startsWith('http') && (
-                        <img src={img} alt="" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 6, marginBottom: 4 }} />
-                      )}
-                      <input type="file" accept="image/*" style={{ fontSize: '0.8rem' }} onChange={async (e) => {
-                        const file = e.target.files[0];
-                        if (!file) return;
-                        const fd = new FormData();
-                        fd.append('image', file);
-                        try {
-                          const res = await axios.post('/api/products/upload-image', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-                          handleImageChange(i, res.data.imageUrl);
-                        } catch (err) {
-                          alert('Upload failed: ' + (err.response?.data?.message || err.message));
-                        }
-                      }} />
                     </div>
                   ))}
                   <button type="button" onClick={() => setForm(f => ({ ...f, images: [...(f.images || []), ''] }))} className="adm-add-img-btn">+ Add Image</button>
@@ -1464,10 +1510,39 @@ const Admin = () => {
         .adm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .adm-checkbox { flex-direction: row !important; align-items: center !important; gap: 8px !important; }
         .adm-checkbox input { width: 18px; height: 18px; accent-color: #d4a843; }
-        .adm-add-img-btn {
-          background: none; border: 1px dashed #ccc; border-radius: 6px; padding: 6px 14px;
-          font-family: 'Inter', sans-serif; font-size: 0.8rem; color: #888; cursor: pointer;
+        .adm-img-slot {
+          background: #fafaf8; border: 1px solid #f0f0ec; border-radius: 10px;
+          padding: 12px 14px; margin-bottom: 10px;
         }
+        .adm-img-thumb {
+          width: 56px; height: 56px; object-fit: cover; border-radius: 8px;
+          border: 1px solid #e0e0e0; flex-shrink: 0;
+        }
+        .adm-img-placeholder {
+          width: 56px; height: 56px; border-radius: 8px; border: 2px dashed #e0e0e0;
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+          background: #fff;
+        }
+        .adm-upload-label {
+          display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+          background: #fff; border: 1px solid #d4a843; border-radius: 6px;
+          font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 600;
+          color: #d4a843; cursor: pointer; transition: all 0.2s;
+        }
+        .adm-upload-label:hover { background: #fffbf0; }
+        .adm-img-remove {
+          width: 30px; height: 30px; border-radius: 50%; border: 1px solid #fecaca;
+          background: #fff; color: #dc2626; font-size: 0.8rem; cursor: pointer;
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+          transition: all 0.2s;
+        }
+        .adm-img-remove:hover { background: #fef2f2; border-color: #dc2626; }
+        .adm-add-img-btn {
+          background: none; border: 1px dashed #ccc; border-radius: 6px; padding: 8px 16px;
+          font-family: 'Inter', sans-serif; font-size: 0.82rem; color: #888; cursor: pointer;
+          transition: all 0.2s;
+        }
+        .adm-add-img-btn:hover { border-color: #d4a843; color: #d4a843; }
         .adm-save-btn {
           padding: 12px 32px; background: #d4a843; color: #fff; border: none; border-radius: 8px;
           font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer;

@@ -32,6 +32,7 @@ const defaultProducts = [
     category: 'infused-honey',
     weight: '1.5oz',
     inStock: true,
+    isVisible: true,
   },
   {
     name: '12oz. Honey',
@@ -43,6 +44,7 @@ const defaultProducts = [
     category: 'raw-honey',
     weight: '12oz',
     inStock: true,
+    isVisible: true,
   },
   {
     name: '3oz. Honey',
@@ -54,6 +56,7 @@ const defaultProducts = [
     category: 'raw-honey',
     weight: '3oz',
     inStock: true,
+    isVisible: true,
   },
   {
     name: '3oz. Honey Box',
@@ -65,6 +68,7 @@ const defaultProducts = [
     category: 'gift-box',
     weight: '3oz',
     inStock: true,
+    isVisible: true,
   },
 ];
 
@@ -81,7 +85,7 @@ router.get('/', async (req, res) => {
       filter.inStock = inStock === 'true';
     }
     if (all !== 'true') {
-      filter.isVisible = true;
+      filter.isVisible = { $ne: false };
     }
 
     const products = await Product.find(filter).sort({ createdAt: -1 });
